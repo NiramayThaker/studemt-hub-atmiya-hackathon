@@ -1,0 +1,13 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<form method="POST" action="">
+    {% csrf_token %}
+    {% comment %} Ask for User confirmation for deleting {% endcomment %}
+    <p>Are you sure you want to delete "{{obj}}"</p>
+    {% comment %} And then send it back to the page from user was refered to delete page(previous page) {% endcomment %}
+    <a href="{{request.META.HTTP_REFERER}}">Go Back</a>
+    <br><br>
+    <input type="submit" value="Confirm"/>
+</form>
+{% endblock content %}

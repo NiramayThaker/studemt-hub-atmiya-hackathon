@@ -1,0 +1,17 @@
+{% extends 'main.html' %}
+{% block content %}
+
+    <div>
+        <form action="#" method="post">
+            {% csrf_token %}
+            {% comment %} 
+                Seperates all form field as Paragraph 
+                These form is a context passed from views.py file which was imported from forms file which has ModelForm created for Rooms Model
+            {% endcomment %}
+            {{form.as_p}}
+
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+
+{% endblock content %}

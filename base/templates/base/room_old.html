@@ -1,0 +1,63 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<style>
+    .room-containter {
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+    }
+</style>
+
+<div class="room-containter">
+    
+    <div> 
+        <h1>@{{room.host}}</h1>
+        <h1>{{room.name}}</h1>
+        <p>{{room.description}}</p>
+
+        <div class="comment-wrapper">
+            <h3>Conversation</h3>
+            <hr>
+            {% for message in room_messages %}
+
+                <div>
+                    {% if request.user == message.user %}
+                        <a href="{% url 'delete-message' message.id%}">Delete</a>
+                    {% endif %}
+                    {% comment %} It will show the username of the person how has messaged {% endcomment %}
+                    <small>@{{message.user}} {{message.created | timesince}} Ago</small>
+                    {% comment %} Time since will print the time since when the message has been posted {% endcomment %}
+                    {% comment %} Will show message body {% endcomment %}
+                    <p>-> {{message.body}}</p>
+                    <hr>
+                </div>
+
+            {% endfor %}
+        </div>
+
+        {% comment %} If a page is requested by any authenticated user then only show comment box {% endcomment %}
+        {% if request.user.is_authenticated %}
+        <div class="comment-form">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <input type="text" name="body" placeholder="Write Your Message Here"/>
+            </form>
+        </div>
+        {% endif %}
+    </div>
+
+    <div>
+        {% comment %} Printing all the participants name who has conversation in the room {% endcomment %}
+        <h3>Participants</h3>
+        <hr>
+        {% for user in participants %}
+            <p>@{{user.username}}</p>
+
+        {% endfor %}
+        <hr>
+    </div>
+
+</div>
+
+{% endblock %}

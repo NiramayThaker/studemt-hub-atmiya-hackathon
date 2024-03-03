@@ -1,0 +1,44 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% comment %}
+It will check the value in page variable, 
+If it's login then render login page and if not then render register page 
+{% endcomment %}
+
+{% if page == "login" %}
+{% comment %} Ask user for login credentials if they doesn't has it then they are asked to register and get it {% endcomment %}
+    <div>
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="" placeholder="Enter Your Name">
+
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="" placeholder="Enter password">
+            
+            <input type="submit" value="login">
+        </form>
+
+        <p>Haven't Signed Up Yet ?</p>
+        <a href="{% url 'register' %}">Register</a>
+    </div>
+
+{% else %}
+{% comment %} It will have Auto-generated form for user Registeration with all constraint set automatically {% endcomment %}
+    <div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Register">
+        </form>
+
+        <p>Already Signed Up ?</p>
+        <a href="{% url 'login' %}">Login</a>
+    </div>
+
+{% endif %}
+
+{% endblock content %}
